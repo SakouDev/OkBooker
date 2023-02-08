@@ -26,21 +26,21 @@ const router = Router();
 router.get('/', controllerTemplate.getTemplate)
 /**
   * @openapi
-  * /api/templates/{id}:
+  * /api/templates/{title}:
   *  get:
   *      tags: [Templates]
   *      description: Get an template by id
   *      parameters:
-  *       - name: id
+  *       - name: title
   *         in: path
   *         required: true
-  *         type: integer
+  *         type: string
   *         default: 1
   *      responses:
   *        200:
   *          description: Returns a mysterious string.
   */
-router.get('/:id', controllerTemplate.getTemplateById)
+router.get('/:title', controllerTemplate.getTemplateById)
 /**
   * @openapi
   * /api/templates:

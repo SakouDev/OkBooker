@@ -1,6 +1,5 @@
-import mongoose from "./connect";
+import mongoose from "mongoose";
 
-export const Database = () => {
     const BookShema = new mongoose.Schema(
         {
             title: String,
@@ -11,13 +10,8 @@ export const Database = () => {
         { timestamps: true }
     );
     
-    const BookModel = mongoose.model("Book", BookShema, "BookStore");
-
-    var books = [{ name: 'Mongoose Tutorial'},
-                { name: 'NodeJS tutorial'},
-                { name: 'MongoDB Tutorial'}];
-    
-    // const Book = new BookModel({ title: "The Lord of the Rings" });
-    
-    // Book.save().then(() => console.log("Book saved to database."));
-}
+    export const BookModel = mongoose.model("Book", BookShema, "BookStore");
+                
+// const Book = new BookModel({ title: "The Lord of the Rings" });
+                
+// Book.save().then(() => console.log("Book saved to database."));

@@ -2,69 +2,33 @@ import { wowTemplate } from "../types/template"
 
 import { ErrorRequestHandler, Request, Response } from "express"
 import { BadRequestException, NotFoundException } from "../middleware/exception"
+import { BookModel } from "../database/database"
 
 const db = require("../database/connect")
 const queries = require("../queries/templateQueries")
 
-const getTemplate = (req:Request, res: Response) => {
-    db.query(queries.getTemplate, (error:ErrorRequestHandler, result:any) => {
-        try {
-            if(error) throw error
-            res.status(200).json(result.rows)
-        } catch (error) {
-            res.send(error)
-        }
-    })
+const getTemplate = async (req:Request, res: Response) => {
+    const result = await BookModel.find({})
+    res.status(200).json(result)
 }
 
-const getTemplateById = (req:Request, res: Response) => {
-    const id = Number(req.params.id)
-    db.query(queries.getTemplateById, [id], (error:ErrorRequestHandler, result:any) => {
-        try {
-            if(!Number.isInteger(id)) throw new BadRequestException("ID non trouvé")
-            const noTemplateFound = !result.rows.length
-            if(noTemplateFound) throw new NotFoundException("Impossible de lire un ID inexistant")
-            res.status(200).json(result.rows)
-        } catch (error) {
-            res.send(error)
-        }
-    })
+const getTemplateById = async (req:Request, res: Response) => {
+    const result = await BookModel.findOne({title : req.params.title})
+    res.status(200).json(result)
 }
 
-const addTemplate = (req :Request, res: Response) => {
-    const { name, mail, description, image } = req.body
-    //Add
-    db.query(queries.addTemplate, [name, mail, description, image], (error:ErrorRequestHandler, result:any) => {
-        try {
-            if(error) throw error
-            res.status(200).send("Created Succesfully!")
-        } catch (error) {
-            res.send(error)
-        }
-    })
+const addTemplate = async (req :Request, res: Response) => {
+    await BookModel.create(req.body)
 }
 
-const updateTemplate = (req :Request, res: Response) => {
-    const id = parseInt(req.params.id)
-    const { name, mail, description, image } = req.body
-
-    db.query(queries.getTemplateById, [id], (error:ErrorRequestHandler, result:any) => {
-
-        try {
-            if(!Number.isInteger(id)) throw new BadRequestException("ID non trouvé")
-            const noTemplateFound = !result.rows.length
-            if(noTemplateFound) throw new NotFoundException("Impossible de modifier un ID inexistant")
-
-            db.query(queries.updateTemplate, [name, mail, description, image , id], (error:ErrorRequestHandler, result:any) => {
-                if (error) throw error
-                res.status(200).send("Updated ! (Faster than LostArk Update !)")
-            })
-
-        } catch (error) {
-            res.send(error)
-        }
+const updateTemplate = async (req :Request, res: Response) => {
+    let result = await BookModel.findOne({title : req.params.title})
+    try {
+        if (!result) throw new NotFoundException("Impossible de mettre à jour un ID inexistant")
+        await BookModel.updateOne({title : req.params.title}, req.body)
+    } catch (error) {
         
-    })
+    }
 }
 
 const deleteTemplate = (req :Request, res: Response) => {

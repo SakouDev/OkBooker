@@ -3,7 +3,6 @@ import express from 'express'
 import templateRoutes from "./routes/templateRoutes"
 
 import "dotenv/config";
-import { Database } from './database/database';
 
 const swaggerJsDoc = require('swagger-jsdoc')
 const swaggerUi = require('swagger-ui-express')
@@ -45,5 +44,3 @@ const swaggerDocs = swaggerJsDoc(swaggerOptions)
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 
 app.use('/api/templates', templateRoutes)
-
-Database()
