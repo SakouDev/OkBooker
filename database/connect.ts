@@ -1,11 +1,10 @@
-const DB = require('pg').Pool
+import mongoose, { ConnectOptions } from 'mongoose';
+import 'dotenv/config'
 
-const db = new DB({
-    host: "localhost",
-    user: "Test",
-    port: 5432,
-    password: "12344",
-    database: "template"
-})
+const options = { useNewUrlParser: true, useUnifiedTopology: true } as ConnectOptions
 
-module.exports = db
+mongoose.connect(process.env.MONGODB_URI!, options )
+  .then(() => console.log('Connected to MongoDB.'))
+  .catch(error => console.error(error));
+
+export default mongoose

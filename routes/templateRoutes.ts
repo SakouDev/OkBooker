@@ -101,5 +101,5 @@ router.put('/:id', controllerTemplate.updateTemplate)
   */
 router.delete('/:id', controllerTemplate.deleteTemplate)
 
-module.exports = router
 
+export default router
