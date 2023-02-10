@@ -1,6 +1,7 @@
 import cors from 'cors'
 import express from 'express'
 import BooksRoutes from "./routes/BooksRoutes"
+import BorrowRoutes from "./routes/BorrowRoutes"
 
 import "dotenv/config";
 import './database/connect'
@@ -40,3 +41,4 @@ const swaggerDocs = swaggerJsDoc(swaggerOptions)
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 
 app.use('/api/books', BooksRoutes)
+app.use('/api/borrow', BorrowRoutes)
