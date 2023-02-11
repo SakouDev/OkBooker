@@ -4,23 +4,26 @@ import { BookModel } from "../Models/Books"
 
 const getBook = async (req:Request, res: Response) => {
     const result = await BookModel.find({})
-    res.status(200).json(result)
+    res.status(200).json({message : "All Books!",result})
 }
 
 const getBookById = async (req:Request, res: Response) => {
     const result = await BookModel.findById(req.params.id)
-    res.status(200).json(result)
+    res.status(200).json({message : "One book!",result})
 }
 
-const addBook = async (req :Request, res: any) => {
-    BookModel.create(req.body).then(res.send("Books added!"))
+const addBook = async (req :Request, res: Response) => {
+    const result = await BookModel.create(req.body)
+    res.status(200).json({message : "Books added!",result})
 }
-const updateBook = async (req :Request, res: any) => {
-    BookModel.findOneAndUpdate({title : req.params.title}, req.body).then(res.send("Book updated!"))
+const updateBook = async (req :Request, res: Response) => {
+    const result = await BookModel.findOneAndUpdate({title : req.params.title}, req.body)
+    res.status(200).json({message : "Books Updated!",result})
 }
 
-const deleteBook = async (req :Request, res: any) => {
-    BookModel.deleteOne({title : req.params.title}).then(res.send("Book deleted!"))
+const deleteBook = async (req :Request, res: Response) => {
+    const result = await BookModel.deleteOne({title : req.params.title})
+    res.status(200).json({message : "Books added!",result})
 }
 
 export default {
@@ -30,12 +33,3 @@ export default {
     updateBook,
     deleteBook
 }
-
-
-//Permet d'ajouter un emprunt à un livre
-
-// BookModel.findById(req.params.id).then((element) => {
-//     element?.history.push(relou)
-//     element?.save()
-//     res.status(200).json(element)
-// })

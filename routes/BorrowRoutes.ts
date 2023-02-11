@@ -28,7 +28,7 @@ const router = Router();
   *         in: body
   *         required: true
   *         type: object
-  *         default: {"title": "OnePiece","type": "Manga","author": "Eichiro Oda","location": "Boulogne Sur mer","history" : [{ "emprunt": "2023-01-26T00:00:00.000Z", "rendu": "2023-01-27T00:00:00.000Z", "user": 1 },{ "emprunt": "2023-02-01T00:00:00.000Z", "rendu": null, "user": 2 }]}
+  *         default: {"emprunt": "2023-02-01T00:00:00.000Z", "rendu": null, "user": 2 }
   *      responses:
   *        200:
   *          description: Returns a mysterious string.
@@ -53,7 +53,7 @@ router.post('/:id', BorrowController.addBorrow)
   *         in: body
   *         required: true
   *         type: object
-  *         default: {"title": "OnePiece","type": "Manga","author": "Eichiro Oda","location": "Boulogne Sur mer","history" : [{ "emprunt": "2023-01-26T00:00:00.000Z", "rendu": "2023-01-27T00:00:00.000Z", "user": 1 },{ "emprunt": "2023-02-01T00:00:00.000Z", "rendu": null, "user": 2 }]}
+  *         default: {"location": "Boulogne Sur mer"}
   *      responses:
   *        200:
   *          description: Returns a mysterious string.
