@@ -15,54 +15,51 @@ import { BookModel } from "../Models/Books"
 
 const addBorrow = async (req :Request, res: Response) => {
     BookModel.findById(req.params.id).then((element) => {
-        let rendu
-        if(!req.body.rendu){
-            rendu = null
+        switch (element!.history[element!.history.length - 1].rendu) {
+            case null:
+                return res.status(400).json({ message: "Le livre a déjà été emprunté." });
+            break;
+            default:
+                element!.history.push({
+                    _id : new mongoose.Types.ObjectId(),
+                    emprunt: new Date(),
+                    rendu: null,
+                    user: req.body.user
+                })
+                element!.save()
+                res.status(200).json("Created!")
+            break;
         }
-        else{
-            return res.status(400).json({ message: "Le livre a déjà été rendu." });
-        }
-        element!.history.push({
-            _id : new mongoose.Types.ObjectId(),
-            emprunt: new Date(req.body.emprunt),
-            rendu: rendu,
-            user: req.body.user
-        })
-        element!.save()
-        res.status(200).json("Created!")
     })
 }
 
 const updateBorrow = async (req :Request, res: Response) => {
 
     const book = await BookModel.findById(req.params.id);
+
+    if (book!.history[book!.history.length - 1].rendu !== null && 
+        book!.history[book!.history.length - 1].rendu !== undefined) {
+        return res.status(400).json({ message: "Book already returned" });
+    }
     
     switch (book) {
         
         case undefined:
-            return res.status(404).json({ message: "Le livre n'a pas été trouvé." });
+            return res.status(404).json({ message: "Book does not exist" });
         break;
 
         case null:
-            return res.status(404).json({ message: "Le livre n'a pas été trouvé." });
-        break;
+            return res.status(404).json({ message: "Book not found" });
+        break;           
 
         default:
             book.history[book.history.length - 1].rendu = new Date();
             book.location = req.body.location;
             book.save();
         break;
-
     }
 
-    return res.status(200).json("Updated!");
-
-    // const result = await BookModel.findOneAndUpdate(
-    //     { _id: req.params.id, "history._id": latestHistory._id },
-    //     { $set: { "history.$.rendu": new Date() }},
-    //     { new: true }
-    // );
-
+    return res.status(200).json("Book returned!");
 }
 
 export default {

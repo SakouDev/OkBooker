@@ -17,7 +17,7 @@ const addBook = async (req :Request, res: Response) => {
     res.status(200).json({message : "Books added!",result})
 }
 const updateBook = async (req :Request, res: Response) => {
-    const result = await BookModel.findOneAndUpdate({title : req.params.title}, req.body)
+    const result = await BookModel.findOneAndUpdate({_id : req.params.id}, req.body)
     res.status(200).json({message : "Books Updated!",result})
 }
 
