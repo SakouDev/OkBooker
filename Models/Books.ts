@@ -17,7 +17,7 @@ const HistoryShema = new mongoose.Schema(
             default: null
         },
         user : {
-            type : Number,
+            type : String,
             required : true
         }
     }

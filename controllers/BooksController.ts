@@ -22,8 +22,8 @@ const updateBook = async (req :Request, res: Response) => {
 }
 
 const deleteBook = async (req :Request, res: Response) => {
-    const result = await BookModel.deleteOne({title : req.params.title})
-    res.status(200).json({message : "Books added!",result})
+    const result = await BookModel.deleteOne({_id : req.params.id})
+    res.status(200).json({message : "Books Deleted!",result})
 }
 
 export default {
